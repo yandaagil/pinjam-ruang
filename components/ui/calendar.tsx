@@ -7,6 +7,7 @@ import {
   ChevronRightIcon,
 } from "lucide-react"
 import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"
+import { id } from "date-fns/locale"
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -27,6 +28,7 @@ function Calendar({
 
   return (
     <DayPicker
+      locale={id}
       showOutsideDays={showOutsideDays}
       className={cn(
         "bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
@@ -35,9 +37,11 @@ function Calendar({
         className
       )}
       captionLayout={captionLayout}
+      startMonth={new Date(2025, 1)}
+      endMonth={new Date(new Date().setFullYear(new Date().getFullYear() + 1))}
       formatters={{
         formatMonthDropdown: (date) =>
-          date.toLocaleString("default", { month: "short" }),
+          date.toLocaleString("id-ID", { month: "short" }),
         ...formatters,
       }}
       classNames={{
@@ -74,7 +78,7 @@ function Calendar({
           defaultClassNames.dropdown_root
         ),
         dropdown: cn(
-          "absolute bg-popover inset-0 opacity-0",
+          "absolute bg-popover inset-0 opacity-0 cursor-pointer",
           defaultClassNames.dropdown
         ),
         caption_label: cn(

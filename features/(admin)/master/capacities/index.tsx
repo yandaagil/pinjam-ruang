@@ -1,0 +1,35 @@
+'use client'
+
+import { useCapacities } from "./hooks/useCapacityQuery"
+import { columns } from "./columns"
+import { DataTable } from "@/components/data-table/data-table"
+import Create from "./components/create"
+import { useState } from "react"
+import { PaginationState } from "@tanstack/react-table"
+
+const Capacities = () => {
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 10,
+  })
+
+  const { data, isPending, isError, refetch } = useCapacities(
+    pagination.pageIndex + 1,
+    pagination.pageSize
+  )
+
+  return (
+    <DataTable
+      columns={columns}
+      data={data?.data || []}
+      queryState={{ isError, isPending, refetch }}
+      createElement={<Create />}
+      pagination={pagination}
+      onPaginationChange={setPagination}
+      totalPages={data?.pagination?.totalPages || 0}
+      manualPagination={true}
+    />
+  )
+}
+
+export default Capacities

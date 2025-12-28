@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Plus_Jakarta_Sans } from "next/font/google"
 import "./globals.css";
-import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from 'sonner';
-import { NuqsAdapter } from 'nuqs/adapters/next/app'
+import Providers from "./providers";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -24,17 +23,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={plusJakartaSans.className} suppressHydrationWarning>
       <body>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Toaster expand={true} richColors position="top-center" />
-          <NuqsAdapter>
-            {children}
-          </NuqsAdapter>
-        </ThemeProvider>
+        <Providers>
+          {children}
+          <Toaster expand={true} position="top-center" richColors />
+        </Providers>
       </body>
     </html>
   );
